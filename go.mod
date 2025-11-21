@@ -1,4 +1,4 @@
-module textcal
+module github.com/mschilli/go-textcal
 
 go 1.25.4
 
