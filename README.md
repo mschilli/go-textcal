@@ -10,8 +10,6 @@ Formatters are just generic functions receiving a string and returning
 a formatted string, but usually employ `github.com/fatih/color` to
 color letters in ANSIColors.
 
-![Example Output](fig/examples.png)
-
 ## Basic Example
 ```
 package main
@@ -28,7 +26,7 @@ func main() {
 }
 ```
 
-![Basic Output](fig/basic.png)
+<img src="fig/basic.png" width="300" alt="Basic Output">
 
 ## Mark specific day(s)
 ```
@@ -49,7 +47,7 @@ func main() {
 }
 ```
 
-![Reverse Video Output](fig/reverse.png)
+<img src="fig/reverse.png" width="300" alt="Reverse Video Output">
 
 ## Color days and add annotations
 ```
@@ -79,7 +77,7 @@ func main() {
 }
 ```
 
-![Annotation Output](fig/annotation.png)
+<img src="fig/annotation.png" width="300" alt="Annotation Output">
 
 ## Author
 
