@@ -14,8 +14,8 @@ type Calendar struct {
 }
 
 type Annotation struct {
-	dayFormatter func(string) string
-	text         string
+	Formatter func(string) string
+	Text      string
 }
 
 func New(month time.Time) *Calendar {
@@ -25,6 +25,18 @@ func New(month time.Time) *Calendar {
 	}
 
 	return &c
+}
+
+func (c *Calendar) UseFormatter(day int, formatter func(string) string) {
+	e := c.AnnotationMap[day]
+	e.Formatter = formatter
+	c.AnnotationMap[day] = e
+}
+
+func (c *Calendar) Annotate(day int, text string) {
+	e := c.AnnotationMap[day]
+	e.Text = text
+	c.AnnotationMap[day] = e
 }
 
 func (c *Calendar) String() string {
@@ -52,13 +64,13 @@ func (c *Calendar) String() string {
 	for day := 1; day <= daysInMonth; day++ {
 		dayStr := fmt.Sprintf("%2d", day)
 
-		if f := c.AnnotationMap[day].dayFormatter; f != nil {
+		if f := c.AnnotationMap[day].Formatter; f != nil {
 			dayStr = f(dayStr)
 		}
 
 		out += dayStr + " "
 
-		if text := c.AnnotationMap[day].text; text != "" {
+		if text := c.AnnotationMap[day].Text; text != "" {
 			annos = append(annos, text)
 		}
 
@@ -94,6 +106,13 @@ func (c *Calendar) ColorFormatter(
 	fg color.Attribute, bg color.Attribute) func(string) string {
 	return func(str string) string {
 		fu := color.New(bg, fg).SprintFunc()
+		return fu(str)
+	}
+}
+
+func (c *Calendar) ReverseFormatter() func(string) string {
+	return func(str string) string {
+		fu := color.New(color.ReverseVideo).SprintFunc()
 		return fu(str)
 	}
 }

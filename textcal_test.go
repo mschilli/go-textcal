@@ -38,7 +38,7 @@ func TestColor(t *testing.T) {
 	cal := New(month)
 
 	cal.AnnotationMap = map[int]Annotation{
-		10: {dayFormatter: cal.ColorFormatter(color.FgRed, color.BgBlack)},
+		10: {Formatter: cal.ReverseFormatter()},
 	}
 	str := cal.String()
 
@@ -57,21 +57,21 @@ func TestAnno(t *testing.T) {
 	month := time.Date(2025, time.November, 1, 0, 0, 0, 0, time.UTC)
 	cal := New(month)
 
-	greenit := cal.ColorFormatter(color.FgGreen, color.Reset)
-	redit := cal.ColorFormatter(color.FgRed, color.Reset)
+	makegreen := cal.ColorFormatter(color.FgGreen, color.Reset)
+	makered := cal.ColorFormatter(color.FgRed, color.Reset)
 
 	cal.AnnotationMap = map[int]Annotation{
-		1: {dayFormatter: greenit,
-			text: greenit("$1000"),
+		1: {Formatter: makegreen,
+			Text: makegreen("$1000"),
 		},
-		4: {dayFormatter: greenit,
-			text: greenit("$100"),
+		4: {Formatter: makegreen,
+			Text: makegreen("$100"),
 		},
-		5: {dayFormatter: redit,
-			text: redit("$200"),
+		5: {Formatter: makered,
+			Text: makered("$200"),
 		},
-		30: {dayFormatter: redit,
-			text: redit("$500"),
+		30: {Formatter: makered,
+			Text: makered("$500"),
 		},
 	}
 	str := cal.String()
