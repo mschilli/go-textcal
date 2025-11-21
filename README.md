@@ -77,7 +77,7 @@ func main() {
 }
 ```
 
-<img src="fig/annotation.png" width="300" alt="Annotation Output">
+<img src="fig/annotate.png" width="300" alt="Annotation Output">
 
 ## Author
 
