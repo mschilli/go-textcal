@@ -11,6 +11,8 @@ import (
 type Calendar struct {
 	month         time.Time
 	AnnotationMap map[int]Annotation
+	// Highlight today's date in case the displayed month contains it.
+	MarkToday bool
 }
 
 type Annotation struct {
@@ -43,8 +45,33 @@ func (c *Calendar) String() string {
 	out := ""
 
 	year, month, _ := c.month.Date()
-
 	firstDay := time.Date(year, month, 1, 0, 0, 0, 0, time.UTC)
+
+	if c.MarkToday {
+		y, m, d := time.Now().Date()
+
+		if y == year && m == month {
+			anno, found := c.AnnotationMap[d]
+			newFormatter := c.ReverseFormatter()
+
+			if found {
+				if anno.Formatter == nil {
+					anno.Formatter = newFormatter
+				} else {
+					// needed, otherwise infinite recursion
+					oldF := anno.Formatter
+
+					anno.Formatter = func(s string) string {
+						return oldF(newFormatter(s))
+					}
+				}
+			} else {
+				anno = Annotation{Formatter: newFormatter}
+			}
+
+			c.AnnotationMap[d] = anno
+		}
+	}
 
 	startWeekday := firstDay.Weekday()
 

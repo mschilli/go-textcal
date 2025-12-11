@@ -86,3 +86,20 @@ func TestAnno(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestToday(t *testing.T) {
+	month := time.Date(2025, time.December, 1, 0, 0, 0, 0, time.UTC)
+	cal := New(month)
+	cal.MarkToday = true
+
+	makegreen := cal.ColorFormatter(color.FgGreen, color.Reset)
+	cal.AnnotationMap = map[int]Annotation{
+		11: {Formatter: makegreen},
+	}
+
+	str := cal.String()
+
+	if debug {
+		fmt.Println(str)
+	}
+}
